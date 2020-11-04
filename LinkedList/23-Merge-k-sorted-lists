@@ -1,0 +1,57 @@
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.empty()) return NULL;
+        int len = lists.size();
+        while(len > 1){
+            for (int i = 0; i < len/2; ++i) {
+                lists[i] = merge2Lists(lists[i], lists[len-1-i]);
+            }
+            len = (len+1)/2;
+        }
+        
+        return lists.front(); 
+    }
+private:
+    ListNode* merge2Lists(ListNode* &left, ListNode* & right){
+        if(!left) return right;
+        else if(!right) return left;
+        
+        if(left->val < right->val){
+            left->next = merge2Lists(right, left->next);
+            return left;
+        } else {
+            right->next = merge2Lists(left, right->next);
+            return right;
+        }
+    }
+};
+
+/**
+KEY:
+1. 這方法是一次兩個來合併，可以複習一下 merge sorted list 基本功
+2. 合併種類可以像上面，頭尾合併一路到中間，或著可以 divide & conquer，用間隔 1, 2, 4, 6, ...來合併
+**/
+
+// divide conquer
+int len = lists.size();
+int interval = 1;
+// interval not larger than the total length (not make sense)
+while(interval < len){
+    // i move from 0->2->4->... (when interval = 1)
+    // i move from 0->4->8->... (when interval = 2)
+    // ...
+    for(int i=0; i<len.size(); i = i + interval * 2){
+        lists[i] = merge2Lists(lists[i], lists[i+interval]);
+    }
+    interval *= 2;
+}
+
+/**
+Time Complexity:
+k = #List / N = number of total nodes of 2 merging lists
+    1. O(k * N)
+    2. O(N * logk)
+
+Space Complexity: O(1)
+**/
