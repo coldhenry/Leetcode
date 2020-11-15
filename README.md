@@ -6,7 +6,8 @@
 
 ## Queued 
 
-<u>Interval</u> Finished
+<u>Interval</u> 
+Finished
 <u>Counter</u>
 
 280, 33, 81, 154
