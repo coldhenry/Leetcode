@@ -38,6 +38,9 @@ public:
                 if(target >= nums[left] && target < nums[mid]) right = mid - 1;
                 else left = mid + 1;
             } else { // nums[mid] < nums[left]
+                // 這裡是 key point：因為我知道 left--mid--right 中間有個窟窿
+                // 所以如果比 left 跟 mid 是有問題的，拿 mid 跟 right 才不會出事
+                // 這才是有沒有 rotated 的差別 
                 if(target > nums[mid] && target <= nums[right]) left = mid + 1;
                 else right = mid - 1;
             }
